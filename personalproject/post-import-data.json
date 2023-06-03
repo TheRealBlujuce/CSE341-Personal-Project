@@ -1,0 +1,17 @@
+[
+  {
+    "postTitle": "First Post",
+    "postDate": "2023-05-01",
+    "postContent": "This is the content of the first post."
+  },
+  {
+    "postTitle": "Second Post",
+    "postDate": "2023-05-03",
+    "postContent": "This is the content of the second post."
+  },
+  {
+    "postTitle": "Third Post",
+    "postDate": "2023-05-05",
+    "postContent": "This is the content of the third post."
+  }
+]

@@ -1,0 +1,33 @@
+
+GET http://localhost:3000/posts
+
+###
+GET http://localhost:3000/posts/6477ccd756021dadf62ccb79
+
+# ###
+# POST /-post HTTP/1.1
+# Host: localhost:3000
+# Content-Type: application/json
+
+# {
+#   "title": "John",
+#   "lastName": "Doe",
+#   "email": "johndoe@example.com",
+#   "birthday": "10-10-2000",
+#   "favColor": "white"
+# }
+
+# ###
+# PUT http://localhost:3000/update-post/:id HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "birthday": "10/4/1995",
+#     "email": "willmarda@outlookc.com",
+#     "favColor": "orange",
+#     "firstName": "Willem",
+#     "lastName": "Marda"
+# }
+
+# ###
+# DELETE http://localhost:3000/delete-post/:id

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Home</title>
+  <link href="output.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+  <!-- Header -->
+  <header class="bg-white py-4 px-6 shadow">
+    <div class="container mx-8">
+      <h1 class="text-2xl font-bold text-gray-800">The Sol Tribune</h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto my-8">
+    <h2 class="text-3xl font-bold text-gray-800">Latest Reviews</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6" id="posts-container">
+      <!-- Posts will be dynamically added here -->
+    </div>
+  </main>
+  
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-4 px-6">
+
+  </footer>
+</body>
+
+<!-- Script to get the posts from the database -->
+<script>
+  fetch('/posts')
+    .then(response => response.json())
+    .then(posts => {
+      console.log(posts)
+      const postsContainer = document.getElementById('posts-container');
+
+      posts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.className = 'bg-white rounded shadow';
+        // <img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover rounded-t">
+        postElement.innerHTML = `
+          <div class="p-6">
+            <h3 class="text-lg font-bold text-gray-800">${post.postTitle}</h3>
+            <h4 class="text-md italic font-bold text-gray-600">${post.postDate}</h3>
+            <p class="text-gray-600 mt-2">${post.postContent}</p>
+            <a href="#" class="inline-block mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Read More</a>
+          </div>
+        `;
+
+        postsContainer.appendChild(postElement);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      alert('Failed to fetch posts');
+    });
+</script>
+
+</html>
