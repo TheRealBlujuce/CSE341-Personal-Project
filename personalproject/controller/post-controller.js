@@ -110,6 +110,12 @@ async function getPostById(req, res) {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Post'
+ *       500:
+ *         description: Error creating post
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
  */
 // Create a new post
 async function createPost(req, res) {
@@ -176,14 +182,20 @@ async function createPost(req, res) {
  *           schema:
  *             $ref: '#/components/schemas/Post'
  *     responses:
- *       201:
+ *       204:
  *         description: The post has been updated
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Post'
- *       404:
+ *       400:
  *         description: Failed to find post
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       500:
+ *         description: Error updating post
  *         content:
  *           application/json:
  *             schema:
@@ -200,7 +212,7 @@ async function updatePost(req, res) {
       res.sendStatus(204);
     } else {
       res.setHeader('Content-Type', 'application/json');
-      res.status(404).json({ message: 'post not found' }, console.log(id));
+      res.status(400).json({ message: 'post not found' }, console.log(id));
     }
   } catch (err) {
     console.error(err);
@@ -224,7 +236,19 @@ async function updatePost(req, res) {
  *           type: string
  *     responses:
  *       200:
- *         description: Deletes a post from the database
+ *         description: Post deleted from the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       400:
+ *         description: Can not find post in the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       500:
+ *         description: Error deleting post from the database
  *         content:
  *           application/json:
  *             schema:
@@ -241,7 +265,7 @@ async function deletePost(req, res) {
       res.sendStatus(200);
     } else {
       res.setHeader('Content-Type', 'application/json');
-      res.status(404).json({ message: 'post not found' });
+      res.status(400).json({ message: 'post not found' });
     }
   } catch (err) {
     console.error(err);
