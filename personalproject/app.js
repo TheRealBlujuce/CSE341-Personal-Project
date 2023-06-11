@@ -13,7 +13,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // Add middleware to serve static files from the 'public' directory
-app.use(express.static('frontend'));
+app.use(express.static('frontend', { index: false }));
 
 // Connect to MongoDB
 mongoose.connect(connectionString, {
@@ -69,7 +69,7 @@ const options = {
         }
       }
     },
-    basePath: '/'
+    basePath: '/login'
   },
   apis: ['controller/post-controller.js', 'controller/comment-controller.js'],
 };
@@ -123,6 +123,17 @@ app.use(express.json());
 
 // Define routes
 
+// Middleware to check if user is authenticated
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    // User is authenticated, allow access to the next middleware/route
+    return next();
+  }
+  else
+  // User is not authenticated, redirect to the login page
+  res.redirect('/login');
+};
+
 // Redirect root URL to the login page
 app.get('/', (req, res) => {
   // Redirect to the login page
@@ -130,20 +141,11 @@ app.get('/', (req, res) => {
 });
 
 // Catch-all route handler
-app.get('*', (req, res) => {
+app.get('', (req, res) => {
   // Redirect any unrecognized routes to the login page
   res.redirect('/login');
 });
 
-// Middleware to check if user is authenticated
-const ensureAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    // User is authenticated, allow access to the next middleware/route
-    return next();
-  }
-  // User is not authenticated, redirect to the login page
-  res.redirect('/login');
-};
 
 // Auth
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
