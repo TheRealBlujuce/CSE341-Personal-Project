@@ -169,6 +169,11 @@ app.get('/logout', (req, res) => {
   });
 });
 
+// Redirect root URL to the login page
+app.get('/', (req, res) => {
+  // Redirect to the login page
+  res.redirect('/login');
+});
 
 // Define Requests
 
