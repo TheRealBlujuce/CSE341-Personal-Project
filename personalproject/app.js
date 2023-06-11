@@ -127,6 +127,12 @@ app.get('/', (req, res) => {
   res.redirect('/login');
 });
 
+app.get('', (req, res) => {
+  // Redirect to the login page
+  res.redirect('/login');
+});
+
+
 // Middleware to check if user is authenticated
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
