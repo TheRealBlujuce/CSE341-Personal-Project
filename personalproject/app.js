@@ -129,11 +129,11 @@ app.get('/', (req, res) => {
   res.redirect('/login');
 });
 
-app.get('', (req, res) => {
-  // Redirect to the login page
+// Catch-all route handler
+app.get('*', (req, res) => {
+  // Redirect any unrecognized routes to the login page
   res.redirect('/login');
 });
-
 
 // Middleware to check if user is authenticated
 const ensureAuthenticated = (req, res, next) => {
