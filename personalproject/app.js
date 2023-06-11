@@ -34,11 +34,11 @@ const options = {
     },
     servers: [
       {
-        url: 'localhost/3000',
+        url: '',
         description: 'Local server',
       },
       {
-        url: 'testserver.com',
+        url: '',
         description: 'Production server',
       },
     ],
@@ -60,10 +60,10 @@ const options = {
         Comment: {
           type: 'object',
           properties: {
-            name: { type: 'string' },
-            comment: { type: 'string' },
+            author: { type: 'string' },
+            content: { type: 'string' },
           },
-          required: ['name', 'comment'] // Specify the required properties for comments
+          required: ['author', 'content'] // Specify the required properties for comments
         }
       }
     },

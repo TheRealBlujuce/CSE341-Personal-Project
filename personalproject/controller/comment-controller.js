@@ -75,12 +75,12 @@ async function getCommentById(req, res) {
  *     Comment:
  *       type: object
  *       properties:
- *         name:
+ *         author:
  *           type: string
- *         comment:
+ *         content:
  *           type: string
  *       required:
- *         - name
+ *         - author
  *         - comment
  *
  * /new-comment:
@@ -116,9 +116,9 @@ async function getCommentById(req, res) {
  */
 // Create a new comment
 async function createComment(req, res) {
-  const { name, comment } = req.body;
+  const { author, comment } = req.body;
 
-  if (!name || !comment) {
+  if (!author || !comment) {
     return res.setHeader('Content-Type', 'application/json')
       .status(400)
       .json({ error: 'Name and comment are required' });
@@ -126,7 +126,7 @@ async function createComment(req, res) {
 
   try {
     const newComment = new Comment({
-      name,
+      author,
       comment
     });
 
