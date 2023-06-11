@@ -13,6 +13,22 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
+  },
+  gameTitle: {
+    type: String,
+    required: true
+  },
+  platform: {
+    type: String,
+    required: true
+  },
+  rating: {
+    type: Number,
+    required: true
+  },
+  reviewer: {
+    type: String,
+    required: true
   }
 });
 

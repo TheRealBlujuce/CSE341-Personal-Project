@@ -59,7 +59,7 @@ async function getPostById(req, res) {
       res.status(200).json(post);
     } else {
       res.setHeader('Content-Type', 'application/json');
-      res.status(404).json({ message: 'post not found' });
+      res.status(404).json({ message: 'Post not found' });
     }
   } catch (err) {
     console.error(err);
@@ -81,15 +81,27 @@ async function getPostById(req, res) {
  *           type: string
  *         postContent:
  *           type: string
+ *         gameTitle:
+ *           type: string
+ *         platform:
+ *           type: string
+ *         rating:
+ *           type: string
+ *         reviewer:
+ *           type: string
  *       required:
  *         - postTitle
  *         - postDate
  *         - postContent
+ *         - gameTitle
+ *         - platform
+ *         - rating
+ *         - reviewer
  *
  * /new-post:
  *   post:
- *     summary: Create a New post
- *     description: Create a new post and add it to the db
+ *     summary: Create a new post
+ *     description: Create a new post and add it to the database
  *     requestBody:
  *       description: The post to create
  *       required: true
@@ -119,25 +131,29 @@ async function getPostById(req, res) {
  */
 // Create a new post
 async function createPost(req, res) {
-  const { postTitle, postDate, postContent} = req.body;
+  const { postTitle, postDate, postContent, gameTitle, platform, rating, reviewer } = req.body;
 
-  if (!postTitle || !postDate || !postContent) {
+  if (!postTitle || !postDate || !postContent || !gameTitle || !platform || !rating || !reviewer) {
     return res.setHeader('Content-Type', 'application/json')
       .status(400)
-      .json({ error: 'All fields are required' }, console.log('Missing a Field.'), console.log('Request Body', req.body));
+      .json({ error: 'All fields are required' });
   }
 
   try {
-    const newpost = new Post({
+    const newPost = new Post({
       postTitle,
       postDate,
-      postContent
+      postContent,
+      gameTitle,
+      platform,
+      rating,
+      reviewer
     });
 
-    const savedpost = await newpost.save();
+    const savedPost = await newPost.save();
 
     res.setHeader('Content-Type', 'application/json');
-    res.status(201).json({ id: savedpost._id });
+    res.status(201).json({ id: savedPost._id });
   } catch (err) {
     console.error(err);
     res.setHeader('Content-Type', 'application/json');
@@ -147,35 +163,19 @@ async function createPost(req, res) {
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     Post:
- *       type: object
- *       properties:
- *         postTitle:
- *           type: string
- *         postDate:
- *           type: string
- *         postContent:
- *           type: string
- *       required:
- *         - postTitle
- *         - postDate
- *         - postContent
- *
  * /update-post/{id}:
  *   put:
- *     summary: Update post
- *     description: updating a post in the db
+ *     summary: Update a post
+ *     description: Update a post in the database
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID of post to update
+ *         description: ID of the post to update
  *         required: true
  *         schema:
  *           type: string
  *     requestBody:
- *       description: the post to update
+ *       description: The post data to update
  *       required: true
  *       content:
  *         application/json:
@@ -189,30 +189,31 @@ async function createPost(req, res) {
  *             schema:
  *               $ref: '#/components/schemas/Post'
  *       400:
- *         description: Failed to find post
+ *         description: Failed to find the post
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Post'
  *       500:
- *         description: Error updating post
+ *         description: Error updating the post
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Post'
  */
+// Update a post
 async function updatePost(req, res) {
   try {
     const id = req.params.id;
-    const updatedpost = req.body;
-    const result = await Post.updateOne({ _id: id }, updatedpost);
+    const updatedPost = req.body;
+    const result = await Post.updateOne({ _id: id }, updatedPost);
 
     if (result.nModified > 0) {
       res.setHeader('Content-Type', 'application/json');
       res.sendStatus(204);
     } else {
       res.setHeader('Content-Type', 'application/json');
-      res.status(400).json({ message: 'post not found' }, console.log(id));
+      res.status(400).json({ message: 'Post not found' });
     }
   } catch (err) {
     console.error(err);
@@ -226,11 +227,11 @@ async function updatePost(req, res) {
  * /delete-post/{id}:
  *   delete:
  *     summary: Delete a post
- *     description: Delete a post from the db
+ *     description: Delete a post from the database
  *     parameters:
  *       - in: path
  *         name: id
- *         description: ID of the post to retrieve
+ *         description: ID of the post to delete
  *         required: true
  *         schema:
  *           type: string
@@ -242,13 +243,13 @@ async function updatePost(req, res) {
  *             schema:
  *               $ref: '#/components/schemas/Post'
  *       400:
- *         description: Can not find post in the database
+ *         description: Failed to find the post
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Post'
  *       500:
- *         description: Error deleting post from the database
+ *         description: Error deleting the post
  *         content:
  *           application/json:
  *             schema:
@@ -265,7 +266,7 @@ async function deletePost(req, res) {
       res.sendStatus(200);
     } else {
       res.setHeader('Content-Type', 'application/json');
-      res.status(400).json({ message: 'post not found' });
+      res.status(400).json({ message: 'Post not found' });
     }
   } catch (err) {
     console.error(err);
@@ -274,10 +275,8 @@ async function deletePost(req, res) {
   }
 }
 
-module.exports.getAllposts = getAllPosts;
+module.exports.getAllPosts = getAllPosts;
 module.exports.getPostById = getPostById;
 module.exports.createPost = createPost;
 module.exports.updatePost = updatePost;
 module.exports.deletePost = deletePost;
-
-

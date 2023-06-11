@@ -34,11 +34,11 @@ const options = {
     },
     servers: [
       {
-        url: '',
+        url: 'localhost/3000',
         description: 'Local server',
       },
       {
-        url: '',
+        url: 'testserver.com',
         description: 'Production server',
       },
     ],
@@ -50,18 +50,31 @@ const options = {
             postTitle: { type: 'string' },
             postDate: { type: 'string' },
             postContent: { type: 'string' },
+            gameTitle: { type: 'string' }, // New parameter
+            platform: { type: 'string' }, // New parameter
+            rating: { type: 'string' }, // New parameter
+            reviewer: { type: 'string' } // New parameter
           },
-          required: ['postTitle', 'postDate', 'postContent']
+          required: ['postTitle', 'postDate', 'postContent', 'gameTitle', 'rating', 'reviewer']
+        },
+        Comment: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            comment: { type: 'string' },
+          },
+          required: ['name', 'comment'] // Specify the required properties for comments
         }
       }
     },
     basePath: '/'
   },
-  apis: ['controller/post-controller.js'],
+  apis: ['controller/post-controller.js', 'controller/comment-controller.js'],
 };
 
-// Import the post controller
+// Import the post and comments controller
 const postController = require('./controller/post-controller');
+const commentController = require('./controller/comment-controller');
 
 // Configure express-session middleware
 app.use(
@@ -159,24 +172,21 @@ app.get('/logout', (req, res) => {
 
 // Define Requests
 
-// GET all posts
-app.get('/posts', postController.getAllposts);
+// --------------------------------------Routes For Requests--------------------------------------
 
-// GET post by ID
-app.get('/posts/:id', postController.getPostById);
+const postsRouter = require('./routes/posts');
+const commentsRouter = require('./routes/comments');
 
-// POST a new post
-app.post('/new-post', postController.createPost);
+app.use(postsRouter);
+app.use(commentsRouter);
 
-// PUT update a post by ID
-app.put('/update-post/:id', postController.updatePost);
-
-// DELETE a post by ID
-app.delete('/delete-post/:id', postController.deletePost);
+// ----------------------------------------------------------------------------
 
 // Route for Swagger Doc
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
 
 // Listen on Port 3000
 app.listen(3000, () => {

@@ -2,16 +2,28 @@
   {
     "postTitle": "First Post",
     "postDate": "2023-05-01",
-    "postContent": "This is the content of the first post."
+    "postContent": "This is the content of the first post.",
+    "gameTitle": "Game A",
+    "platform": "PlayStation 5",
+    "rating": 8.5,
+    "reviewer": "John Doe"
   },
   {
     "postTitle": "Second Post",
     "postDate": "2023-05-03",
-    "postContent": "This is the content of the second post."
+    "postContent": "This is the content of the second post.",
+    "gameTitle": "Game B",
+    "platform": "Xbox Series X",
+    "rating": 9.0,
+    "reviewer": "Jane Smith"
   },
   {
     "postTitle": "Third Post",
     "postDate": "2023-05-05",
-    "postContent": "This is the content of the third post."
+    "postContent": "This is the content of the third post.",
+    "gameTitle": "Game C",
+    "platform": "Nintendo Switch",
+    "rating": 7.8,
+    "reviewer": "Mike Johnson"
   }
 ]
