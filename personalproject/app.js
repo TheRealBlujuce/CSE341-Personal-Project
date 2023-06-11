@@ -121,6 +121,12 @@ app.use(express.json());
 
 // Define routes
 
+// Redirect root URL to the login page
+app.get('/', (req, res) => {
+  // Redirect to the login page
+  res.redirect('/login');
+});
+
 // Middleware to check if user is authenticated
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -149,6 +155,12 @@ app.get('/login', (req, res) => {
   res.sendFile('login.html', { root: 'frontend' });
 });
 
+// Login Route
+app.get('/', (req, res) => {
+  // Render the login page here
+  res.sendFile('login.html', { root: 'frontend' });
+});
+
 // Home route
 app.get('/home', ensureAuthenticated, (req, res) => {
   // Render the index page here
@@ -169,11 +181,7 @@ app.get('/logout', (req, res) => {
   });
 });
 
-// Redirect root URL to the login page
-app.get('/', (req, res) => {
-  // Redirect to the login page
-  res.redirect('/login');
-});
+
 
 // Define Requests
 
