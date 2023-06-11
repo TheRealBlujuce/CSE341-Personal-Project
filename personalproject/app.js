@@ -5,7 +5,7 @@ const app = express();
 require('dotenv').config();
 const mongoose = require('mongoose');
 const connectionString = process.env.MONGO_DB_CONNECTION_STRING;
-const connectionClientID = process.env.MONGO_DB_AUTH-CLIENT_ID;
+const connectionClientID = process.env.MONGO_DB_AUTH_CLIENT_ID;
 const connectionSecretID = process.env.MONGO_DB_AUTH_SECRET_ID;
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
@@ -69,7 +69,7 @@ const options = {
         }
       }
     },
-    basePath: '/login'
+    basePath: '/'
   },
   apis: ['controller/post-controller.js', 'controller/comment-controller.js'],
 };
@@ -81,7 +81,7 @@ const commentController = require('./controller/comment-controller');
 // Configure express-session middleware
 app.use(
   session({
-    secret: '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', // Replace with your own secret key
+    secret: connectionSecretID, // Replace with your own secret key
     resave: false,
     saveUninitialized: false
   })
