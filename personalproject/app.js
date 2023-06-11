@@ -5,6 +5,8 @@ const app = express();
 require('dotenv').config();
 const mongoose = require('mongoose');
 const connectionString = process.env.MONGO_DB_CONNECTION_STRING;
+const connectionClientID = process.env.MONGO_DB_AUTH-CLIENTID;
+const connectionSecretID = process.env.MONGO_DB_AUTH_SECRETID;
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const passport = require('passport');
@@ -93,8 +95,8 @@ app.use(passport.session());
 passport.use(
   new GoogleStrategy(
     {
-      clientID: '288535704920-khk18jf1pah11btbgrbmn4acvomh9lks.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientID: connectionClientID,
+      clientSecret: connectionSecretID,
       callbackURL: '/auth/google/callback'
     },
     (accessToken, refreshToken, profile, done) => {
