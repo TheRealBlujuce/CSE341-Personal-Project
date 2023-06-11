@@ -67,7 +67,7 @@ const options = {
         }
       }
     },
-    basePath: '/'
+    basePath: '/login'
   },
   apis: ['controller/post-controller.js', 'controller/comment-controller.js'],
 };
